@@ -19,5 +19,9 @@ export default defineNuxtConfig({
     '~/assets/styles/fonts.css'
   ],
 
+  router: {
+    base: '/portfolio/'
+  }
+
   compatibilityDate: '2024-07-21'
 })
