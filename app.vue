@@ -3,6 +3,9 @@ import '@unocss/reset/tailwind.css';
 </script>
 
 <template>
+  <Head>
+    <Title>jwt - daan.vodka</Title>
+  </Head>
   <div>
     <NuxtPage />
   </div>
