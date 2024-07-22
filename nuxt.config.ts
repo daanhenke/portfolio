@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/content',
     '@unocss/nuxt',
+    '@pinia/nuxt',
     '@hypernym/nuxt-anime'
   ],
 
@@ -20,8 +21,8 @@ export default defineNuxtConfig({
   ],
 
   router: {
-    base: '/portfolio/'
-  }
+    base: '/'
+  },
 
   compatibilityDate: '2024-07-21'
 })

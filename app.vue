@@ -6,7 +6,7 @@ import '@unocss/reset/tailwind.css';
   <div>
     <NuxtPage />
   </div>
-  <YorhaLoader />
+  <Loader />
 </template>
 
 <style scoped>
