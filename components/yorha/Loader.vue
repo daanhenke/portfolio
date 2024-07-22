@@ -8,7 +8,7 @@ const lines = LongLoadingText
 
 onMounted(() =>
 {
-    let typeCharSpeed = 20;
+    let typeCharSpeed = 40;
     let typeLineSpeed = 100;
 
     const dotsTimeline = $anime.timeline({ loop: true })
@@ -21,17 +21,12 @@ onMounted(() =>
 
         
     const textTimeline = $anime.timeline();
-    let textDelay = 0;
-    for (let i = 0; i < lines.length; i++)
-    {
-        textTimeline.add({
-            targets: `.text-layer > .content > .line[data-line="${i}"] span`,
+    textTimeline.add({
+            targets: `.text-layer > .content > .line > span`,
             opacity: [0, 1],
-            duration: typeCharSpeed * 5,
+            duration: typeCharSpeed,
             delay: $anime.stagger(typeCharSpeed),
-        }, textDelay);
-        textDelay += (lines[i].length * typeCharSpeed) + typeLineSpeed;
-    }
+        }, 0);
 });
 </script>
 
@@ -70,7 +65,7 @@ onMounted(() =>
     background: black;
 
     &> .image {
-        @apply w-80 lg:w-172 h-full;
+        @apply w-80 md:w-148 lg:w-172 h-full;
         background-image: url(~/assets/images/yorha/loading-banner.png);
         background-repeat: no-repeat;
         background-position: center;
@@ -104,17 +99,17 @@ onMounted(() =>
 }
 
 @keyframes chromaticMove { 
-    0%{text-shadow: 1px 1px 1px rgba(251, 12, 12,.5), 0px -.5px 1.5px rgba(12, 79, 251,.5),0px 0px -1px rgba(52, 251, 12, .5);}
-    50%{text-shadow: 1px 1px 1px rgba(251, 12, 12,.5), 0px -.5px 1.5px rgba(12, 79, 251,.5),-1px 1px 1px rgba(52, 251, 12, .5);}
-    100%{text-shadow: 1px 1px 1px rgba(251, 12, 12,.5), 0px -.5px 1.5px rgba(12, 79, 251,.5),1px -.5px 1px rgba(52, 251, 12, .5);}
+    0% {text-shadow: 1px 1px 1px rgba(251, 12, 12,.5), 0px -.5px 1.5px rgba(12, 79, 251,.5),0px 0px -1px rgba(52, 251, 12, .5);}
+    50% {text-shadow: 1px 1px 1px rgba(251, 12, 12,.5), 0px -.5px 1.5px rgba(12, 79, 251,.5),-1px 1px 1px rgba(52, 251, 12, .5);}
+    100% {text-shadow: 1px 1px 1px rgba(251, 12, 12,.5), 0px -.5px 1.5px rgba(12, 79, 251,.5),1px -.5px 1px rgba(52, 251, 12, .5);}
 }
 
 @keyframes pulse { 
-    0%{ opacity:.95;transform: skewX(.5deg);}
-    25%{ opacity:1;}
-    50%{opacity:.95;}
-    75%{ opacity:1; transform:skewX(.5deg);}
-    100%{opacity:.95;}
+    0% { opacity:.95;transform: skewX(.5deg);}
+    25% { opacity:1;}
+    50% {opacity:.95;}
+    75% { opacity:1; transform:skewX(.5deg);}
+    100% {opacity:.95;}
 }
 
 .header {
