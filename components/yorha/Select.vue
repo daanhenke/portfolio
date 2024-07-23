@@ -17,7 +17,12 @@ const activeLabel = computed(() => props.items.find(kv => kv.key === activeKey.v
 <template>
     <div class="yorha-select">
         <YorhaButton @click="isOpen = !isOpen" class="yorha-select-button">
-            {{ activeLabel }}
+            <span v-if="placeholder">
+                {{ placeholder }}: {{ activeLabel }}
+            </span>
+            <span v-else>
+                {{ activeLabel }}
+            </span>
         </YorhaButton>
         <div :class="`yorha-select-items ${isOpen ? 'yorha-select-open' : ''}`">
             <YorhaButton v-for="item in items"
