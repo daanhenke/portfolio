@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import '@unocss/reset/tailwind.css';
+
+const themeStore = useThemeStore();
+const { currentTheme } = storeToRefs(themeStore);
 </script>
 
 <template>
   <Head>
     <Title>jwt - daan.vodka</Title>
   </Head>
-  <div>
+  <div :class="`theme-${currentTheme} layout`">
+    <Navigation />
     <NuxtPage />
   </div>
   <Loader />

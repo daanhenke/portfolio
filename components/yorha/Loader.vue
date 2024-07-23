@@ -1,49 +1,81 @@
 <script lang="ts" setup>
-import { LongLoadingText } from '~/assets/text/yorha/loading';
+import { LongLoadingText, ShortLoadingText } from '~/assets/text/yorha/loading';
 const { $anime } = useNuxtApp();
 
-const lines = LongLoadingText
-    .split('\n')
-    .map(line => line.split(''))
+const loaderStore = useLoaderStore();
+const { isLoading, isQuickLoad } = storeToRefs(loaderStore);
+const { beginLoading, finishLoading } = loaderStore;
 
-onMounted(() =>
+const lines = ref<string[][]>([]);
+
+const startLoading = () =>
 {
-    let typeCharSpeed = 40;
-    let typeLineSpeed = 100;
+    lines.value = (isQuickLoad.value ? ShortLoadingText : ShortLoadingText)
+        .split('\n')
+        .map(line => line.split(''));
 
-    const dotsTimeline = $anime.timeline({ loop: true })
-        .add({
-            targets: '.text-layer > .header > h2 > span',
-            opacity: [0, 1],
-            duration: 1000,
-            delay: $anime.stagger(1000),
-        }, 1000)
+    let typingSpeed = 40;
+    let fadeSpeed = 1000;
 
-        
-    const textTimeline = $anime.timeline();
-    textTimeline.add({
-            targets: `.text-layer > .content > .line > span`,
-            opacity: [0, 1],
-            duration: typeCharSpeed,
-            delay: $anime.stagger(typeCharSpeed),
-        }, 0);
-});
+    const fadeIn = $anime({
+        targets: '.text-layer .fade-in',
+        opacity: [0, 1],
+        duration: fadeSpeed,
+        easing: 'linear',
+
+        complete() {
+            $anime({
+                targets: '.text-layer > .header > h2 > span',
+                opacity: [0, 1],
+                duration: fadeSpeed,
+                delay: $anime.stagger(fadeSpeed),
+                easing: 'linear',
+                loop: true,
+                endDelay: fadeSpeed,
+            });
+
+            $anime({
+                targets: `.text-layer > .content > .line > span`,
+                opacity: [0, 1],
+                duration: typingSpeed,
+                delay: $anime.stagger(typingSpeed),
+
+                complete() {
+                    $anime({
+                        targets: '.yorha-loader',
+                        opacity: 0,
+                        duration: 2000,
+                        delay: 100,
+                        complete() {
+                            finishLoading();
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+onMounted(startLoading);
+
+const nuxtApp = useNuxtApp();
+nuxtApp.hook('page:start', beginLoading);
 </script>
 
 <template>
-    <div class="yorha-loader">
+    <div v-if="isLoading" class="yorha-loader">
         <div class="grid-layer" />
         <div class="image-layer">
             <div class="image" />
         </div>
         <div class="text-layer">
             <div class="header animated-text">
-                <h1>LOADING</h1>
-                <span>-</span>
-                <h2>CHECKING SYSTEM<span>.</span><span>.</span><span>.</span></h2>
+                <h1 class="fade-in">LOADING</h1>
+                <span class="fade-in">-</span>
+                <h2 class="fade-in">CHECKING SYSTEM<span>.</span><span>.</span><span>.</span></h2>
             </div>
-            <div class="content">
-                <div class="line animated-text" :data-line="idx" v-for="line, idx in lines">
+            <div class="content animated-text">
+                <div class="line" :data-line="idx" v-for="line, idx in lines">
                     <span v-for="letter in line">{{ letter }}</span>
                 </div>
             </div>
@@ -53,7 +85,8 @@ onMounted(() =>
 
 <style lang="css" scoped>
 .yorha-loader {
-    @apply absolute top-0 left-0 right-0 bottom-0;
+    @apply absolute top-0 left-0 right-0 bottom-0 z-10;
+    background-color: black;
 }
 
 .yorha-loader > * {
@@ -80,8 +113,8 @@ onMounted(() =>
     background: #222A;
     background-size: 6px 6px;
     background-image: 
-    linear-gradient(#000A .1em, transparent .1em), 
-    linear-gradient(90deg, #000A .1em, transparent .1em);
+    linear-gradient(#0005 .1em, transparent .1em), 
+    linear-gradient(90deg, #0005 .1em, transparent .1em);
 }
 
 .text-layer {
@@ -105,10 +138,10 @@ onMounted(() =>
 }
 
 @keyframes pulse { 
-    0% { opacity:.95;transform: skewX(.5deg);}
+    0% { opacity:.95;transform: skewX(.25deg);}
     25% { opacity:1;}
     50% {opacity:.95;}
-    75% { opacity:1; transform:skewX(.5deg);}
+    75% { opacity:1; transform:skewX(.25deg);}
     100% {opacity:.95;}
 }
 
@@ -136,6 +169,10 @@ onMounted(() =>
 }
 
 .content > .line > span {
+    @apply opacity-0;
+}
+
+.fade-in {
     @apply opacity-0;
 }
 </style>

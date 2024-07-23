@@ -11,6 +11,12 @@ Data Integrity: What does it mean to be truly alive? Seeking answers...
 File Decryption: Every victory comes with a hidden cost.
 Data Transmission: In the end, do we control our fate, or are we merely puppets?`
 
+const ShortLoadingText = `Loading...
+Moshi moshi.
+Bing chilling.
+Shi shi gueyloo?`
+
 export {
-    LongLoadingText
+    LongLoadingText,
+    ShortLoadingText
 }
