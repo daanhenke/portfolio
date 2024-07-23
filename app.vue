@@ -17,4 +17,7 @@ const { currentTheme } = storeToRefs(themeStore);
 </template>
 
 <style scoped>
+.layout {
+  @apply min-h-screen;
+}
 </style>

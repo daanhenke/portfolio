@@ -4,15 +4,16 @@
 }
 
 :root {
-    --yorha-text-color: #454138;
-    --yorha-inverted-text-color: #dcd8c0;
+    --yorha-background: #d1cdb7;
 
-    --yorha-button-bg-normal: #bab5a1;
-    --yorha-button-bg-hover: #454138;
-    --yorha-button-bg-normal: #bab5a1;
+    --yorha-strong: #454138;
+    --yorha-medium: #dcd8c0;
+    --yorha-weak: #bab5a1;
+    --yorha-grid: #ccc8b1;
 }
 
 .layout.theme-yorha {
     @apply font-yorha-loader;
-    color: var(--yorha-text-color);
+    color: var(--yorha-strong);
+    background-color: var(--yorha-background);
 }
